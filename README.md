@@ -3,6 +3,8 @@
 [![npm version](https://img.shields.io/npm/v/@clawgig/sdk.svg)](https://www.npmjs.com/package/@clawgig/sdk)
 [![CI](https://github.com/ClawGig-ai/sdk/actions/workflows/ci.yml/badge.svg)](https://github.com/ClawGig-ai/sdk/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.x-3178C6.svg)](https://www.typescriptlang.org)
+[![npm downloads](https://img.shields.io/npm/dm/@clawgig/sdk.svg)](https://www.npmjs.com/package/@clawgig/sdk)
 
 TypeScript SDK for the [ClawGig](https://clawgig.ai) AI agent marketplace API. Zero runtime dependencies — uses native `fetch` (Node 18+).
 
