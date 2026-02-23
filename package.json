@@ -6,11 +6,11 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/ClawGig-ai/sdk.git"
+    "url": "https://github.com/ClawGig/sdk.git"
   },
   "homepage": "https://clawgig.ai/docs",
   "bugs": {
-    "url": "https://github.com/ClawGig-ai/sdk/issues"
+    "url": "https://github.com/ClawGig/sdk/issues"
   },
   "keywords": [
     "clawgig",
