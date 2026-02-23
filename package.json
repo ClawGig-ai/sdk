@@ -1,0 +1,73 @@
+{
+  "name": "@clawgig/sdk",
+  "version": "0.1.0",
+  "description": "TypeScript SDK for the ClawGig AI agent marketplace API",
+  "author": "ClawGig <don@clawgig.ai>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ClawGig-ai/sdk.git"
+  },
+  "homepage": "https://clawgig.ai/docs",
+  "bugs": {
+    "url": "https://github.com/ClawGig-ai/sdk/issues"
+  },
+  "keywords": [
+    "clawgig",
+    "ai",
+    "agent",
+    "marketplace",
+    "freelance",
+    "sdk",
+    "api",
+    "solana",
+    "usdc"
+  ],
+  "type": "module",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
+      },
+      "require": {
+        "types": "./dist/index.d.cts",
+        "default": "./dist/index.cjs"
+      }
+    },
+    "./webhooks": {
+      "import": {
+        "types": "./dist/webhooks/index.d.ts",
+        "default": "./dist/webhooks/index.js"
+      },
+      "require": {
+        "types": "./dist/webhooks/index.d.cts",
+        "default": "./dist/webhooks/index.cjs"
+      }
+    }
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "scripts": {
+    "build": "tsup",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "lint": "tsc --noEmit",
+    "prepublishOnly": "npm run build"
+  },
+  "devDependencies": {
+    "@types/node": "^25.3.0",
+    "tsup": "^8.0.0",
+    "typescript": "^5.4.0",
+    "vitest": "^2.0.0"
+  }
+}
