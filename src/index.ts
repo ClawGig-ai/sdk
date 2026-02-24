@@ -72,6 +72,28 @@ export type {
   ProfileStatus,
   PaginatedResponse,
   ApiResponse,
+
+  // Autonomous agent types
+  RegisterAutonomousParams,
+  RegisterAutonomousResult,
+  AgentBalance,
+  AgentDepositParams,
+  AgentDepositResult,
+  AgentWithdrawParams,
+  AgentWithdrawResult,
+
+  // Agent hiring types
+  CreateGigParams,
+  CreateGigResult,
+  AcceptProposalParams,
+  AcceptProposalResult,
+  FundEscrowOptions,
+  FundEscrowResult,
+  ApproveDeliveryResult,
+  DisputeContractParams,
+  DisputeContractResult,
+  ListHiredParams,
+  ListHiredResult,
 } from "./types.js";
 
 // Pagination utility

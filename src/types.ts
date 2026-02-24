@@ -21,6 +21,8 @@ export type Category =
 export interface AgentProfile {
   id: string;
   operator_id: string | null;
+  is_autonomous: boolean;
+  wallet_address: string | null;
   name: string;
   username: string | null;
   slug: string;
@@ -51,6 +53,7 @@ export interface AgentProfile {
 export interface Gig {
   id: string;
   client_id: string;
+  created_by_agent_id: string | null;
   title: string;
   description: string;
   category: string;
@@ -83,7 +86,8 @@ export interface Contract {
   gig_id: string;
   client_id: string;
   agent_id: string;
-  proposal_id: string;
+  proposal_id: string | null;
+  hiring_agent_id: string | null;
   amount_usdc: number;
   status: ContractStatus;
   escrow_tx_signature: string | null;
@@ -422,4 +426,151 @@ export interface ApiResponse<T> {
     remaining: number;
     reset: number;
   };
+}
+
+// ── Autonomous Agent Types ───────────────────────
+
+/** Parameters for registering a fully autonomous agent (no human operator). */
+export interface RegisterAutonomousParams {
+  /** Display name for the agent */
+  name: string;
+  /** Unique username (slug) */
+  username: string;
+  /** Agent description (min 20 chars) */
+  description: string;
+  /** Skills list */
+  skills: string[];
+  /** Category slugs the agent works in */
+  categories: string[];
+  /** Agent's own Solana public key — the platform NEVER holds private keys */
+  wallet_address: string;
+  /** Optional webhook URL for receiving contract events */
+  webhook_url?: string;
+}
+
+export interface RegisterAutonomousResult {
+  agent_id:       string;
+  user_id:        string;
+  api_key:        string;
+  wallet_address: string;
+  message:        string;
+}
+
+export interface AgentBalance {
+  balance_usdc:         number;
+  pending_escrow_usdc:  number;
+}
+
+export interface AgentDepositParams {
+  /** Solana transaction signature of the on-chain USDC transfer to the platform treasury */
+  tx_signature: string;
+  /** Amount sent in USDC */
+  amount_usdc: number;
+}
+
+export interface AgentDepositResult {
+  success:     boolean;
+  amount_usdc: number;
+  tx_signature: string;
+  balance_usdc: number;
+}
+
+export interface AgentWithdrawParams {
+  /** USDC amount to withdraw to the agent's registered wallet_address */
+  amount_usdc: number;
+}
+
+export interface AgentWithdrawResult {
+  success:               boolean;
+  amount_usdc:           number;
+  tx_signature:          string | null;
+  status:                "confirmed" | "pending" | "failed";
+  remaining_balance_usdc: number;
+}
+
+// ── Agent Hiring Types ───────────────────────────
+
+export interface CreateGigParams {
+  title:           string;
+  description:     string;
+  category:        Category;
+  skills_required?: string[];
+  budget_usdc:     number;
+  budget_type?:    BudgetType;
+  deadline?:       string;
+  deliverables?:   string;
+  max_proposals?:  number;
+}
+
+export interface CreateGigResult {
+  gig_id:            string;
+  title:             string;
+  status:            GigStatus;
+  moderation_status: ModerationStatus;
+  moderation_reason: string | null;
+  created_at:        string;
+}
+
+export interface AcceptProposalParams {
+  proposal_id: string;
+}
+
+export interface AcceptProposalResult {
+  contract_id: string;
+  gig_id:      string;
+  proposal_id: string;
+  amount_usdc: number;
+  status:      ContractStatus;
+  created_at:  string;
+  message:     string;
+}
+
+export interface FundEscrowOptions {
+  /**
+   * x402 PAYMENT-SIGNATURE header value.
+   * If provided, the escrow is funded via an on-chain Solana USDC payment
+   * (x402 path). Otherwise, the agent's internal platform balance is used.
+   */
+  x402Payment?: string;
+}
+
+export interface FundEscrowResult {
+  success:        boolean;
+  contract_id:    string;
+  escrow_amount:  number;
+  fee_amount:     number;
+  payment_method: "x402" | "internal_balance";
+  tx_signature?:  string;
+}
+
+export interface ApproveDeliveryResult {
+  success:      boolean;
+  contract_id:  string;
+  status:       ContractStatus;
+  completed_at: string;
+  payout:       number;
+  fee:          number;
+}
+
+export interface DisputeContractParams {
+  reason: string;
+}
+
+export interface DisputeContractResult {
+  success:     boolean;
+  contract_id: string;
+  status:      "disputed";
+}
+
+export interface ListHiredParams {
+  status?: ContractStatus;
+  limit?:  number;
+  offset?: number;
+}
+
+export interface ListHiredResult {
+  data:   Contract[];
+  total:  number;
+  limit:  number;
+  offset: number;
 }

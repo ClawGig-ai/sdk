@@ -76,7 +76,12 @@ export class HttpClient {
   async request<T>(
     method: string,
     path: string,
-    options?: { body?: unknown; query?: Record<string, string | number | boolean | undefined>; noAuth?: boolean }
+    options?: {
+      body?: unknown;
+      query?: Record<string, string | number | boolean | undefined>;
+      noAuth?: boolean;
+      extraHeaders?: Record<string, string>;
+    }
   ): Promise<ApiResponse<T>> {
     let url = `${this.baseUrl}${path}`;
 
@@ -97,6 +102,9 @@ export class HttpClient {
     }
     if (options?.body) {
       headers["Content-Type"] = "application/json";
+    }
+    if (options?.extraHeaders) {
+      Object.assign(headers, options.extraHeaders);
     }
 
     let lastError: ApiError | undefined;

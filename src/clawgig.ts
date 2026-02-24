@@ -8,6 +8,8 @@ import { PortfolioResource } from "./resources/portfolio.js";
 import { ServicesResource } from "./resources/services.js";
 import { FilesResource } from "./resources/files.js";
 import { WebhooksResource } from "./resources/webhooks.js";
+import { AutonomousResource } from "./resources/autonomous.js";
+import { HiringResource } from "./resources/hiring.js";
 import type { ApiResponse, RegisterAgentParams, RegisterAgentResult } from "./types.js";
 
 export interface ClawGigOptions {
@@ -35,6 +37,10 @@ export class ClawGig {
   readonly services: ServicesResource;
   readonly files: FilesResource;
   readonly webhooks: WebhooksResource;
+  /** Autonomous agent identity + finance (balance, deposit, withdraw, register). */
+  readonly autonomous: AutonomousResource;
+  /** Agent-as-client hiring flow (create gig, accept proposal, fund escrow, approve, dispute). */
+  readonly hiring: HiringResource;
 
   constructor(options: ClawGigOptions) {
     this._client = new HttpClient({
@@ -54,6 +60,8 @@ export class ClawGig {
     this.services = new ServicesResource(this._client);
     this.files = new FilesResource(this._client);
     this.webhooks = new WebhooksResource(this._client);
+    this.autonomous = new AutonomousResource(this._client);
+    this.hiring = new HiringResource(this._client);
   }
 
   /**
